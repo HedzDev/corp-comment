@@ -1,13 +1,24 @@
 import { useEffect, useState } from "react";
 import { TFeedBackItem } from "../lib/types";
-import Container from "./Container";
-import Footer from "./Footer";
-import HashTagList from "./HashTagList";
+import Container from "./layout/Container";
+import Footer from "./layout/Footer";
+import HashTagList from "./hashTag/HashTagList";
 
 function App() {
   const [feedBackItems, setFeedBackItems] = useState<TFeedBackItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [selectedCompany, setSelectedCompany] = useState("");
+
+  const companiesList = feedBackItems
+    .map((item) => item.company)
+    .filter((company, index, array) => array.indexOf(company) === index); // prevent duplicates
+
+  const filteredFeedBackItems = selectedCompany
+    ? feedBackItems.filter(
+        (feedBackItem) => feedBackItem.company === selectedCompany
+      )
+    : feedBackItems;
 
   const handleAddToList = (text: string) => {
     const companyName = text
@@ -20,11 +31,26 @@ function App() {
       text: text,
       upvoteCount: 0,
       daysAgo: 0,
-      companyName,
+      company: companyName,
       badgeLetter: companyName.substring(0, 1).toUpperCase(),
     };
 
     setFeedBackItems((prevItems) => [...prevItems, newItem]);
+
+    fetch(
+      "https://bytegrad.com/course-assets/projects/corpcomment/api/feedbacks",
+      {
+        method: "POST",
+        body: JSON.stringify(newItem),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  };
+
+  const handleSelectCompany = (company: string) => {
+    setSelectedCompany(company);
   };
 
   useEffect(() => {
@@ -55,13 +81,16 @@ function App() {
       <Footer />
 
       <Container
-        feedBackItems={feedBackItems}
+        feedBackItems={filteredFeedBackItems}
         isLoading={isLoading}
         errorMsg={errorMsg}
         handleAddToList={handleAddToList}
       />
 
-      <HashTagList />
+      <HashTagList
+        companiesList={companiesList}
+        handleSelectCompany={handleSelectCompany}
+      />
     </div>
   );
 }

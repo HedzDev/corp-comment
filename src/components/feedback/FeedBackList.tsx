@@ -1,7 +1,7 @@
-import { TFeedBackItem } from "../lib/types";
-import ErrorMessage from "./ErrorMessage";
+import { TFeedBackItem } from "../../lib/types";
+import ErrorMessage from "../ErrorMessage";
 import FeedBackItem from "./FeedBackItem";
-import Spinner from "./Spinner";
+import Spinner from "../Spinner";
 
 type FeedBackListProps = {
   feedBackItems: TFeedBackItem[];

@@ -1,6 +1,6 @@
-import FeedBackList from "./FeedBackList";
+import FeedBackList from "../feedback/FeedBackList";
 import Header from "./Header";
-import { TFeedBackItem } from "../lib/types";
+import { TFeedBackItem } from "../../lib/types";
 
 type ContainerProps = {
   feedBackItems: TFeedBackItem[];

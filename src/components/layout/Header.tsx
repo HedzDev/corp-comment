@@ -1,7 +1,7 @@
-import FeedBackForm from "./FeedBackForm";
-import Logo from "./Logo";
-import PageHeading from "./PageHeading";
-import Pattern from "./Pattern";
+import FeedBackForm from "../feedback/FeedBackForm";
+import Logo from "../Logo";
+import PageHeading from "../PageHeading";
+import Pattern from "../Pattern";
 
 type HeaderProps = {
   handleAddToList: (text: string) => void;
