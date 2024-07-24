@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { MAX_CHARACTERS } from "../../lib/constants";
-import { useFeedBackItemsContext } from "../../lib/hooks/useFeedBackItemsContext";
+import { useFeedBackItemsStore } from "../../stores/feedBackItemsStore";
 
 export default function FeedBackForm() {
-  const { handleAddToList } = useFeedBackItemsContext();
+  const addItemToList = useFeedBackItemsStore((state) => state.addItemToList);
   const [text, setText] = useState("");
   const [showValidIndicator, setShowValidIndicator] = useState(false);
   const [showInvalidIndicator, setShowInvalidIndicator] = useState(false);
@@ -31,7 +31,7 @@ export default function FeedBackForm() {
       }, 1500);
       return;
     }
-    handleAddToList(text);
+    addItemToList(text);
     setText("");
   };
 

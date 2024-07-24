@@ -1,7 +1,7 @@
-import { useFeedBackItemsContext } from "../lib/hooks/useFeedBackItemsContext";
+import { useFeedBackItemsStore } from "../stores/feedBackItemsStore";
 
 export default function ErrorMessage() {
-  const { errorMsg } = useFeedBackItemsContext();
+  const errorMsg = useFeedBackItemsStore((state) => state.errorMsg);
 
   return <div>{errorMsg}</div>;
 }
