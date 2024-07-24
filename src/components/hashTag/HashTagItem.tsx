@@ -1,15 +1,15 @@
+import { useFeedBackItemsContext } from "../../lib/hooks/useFeedBackItemsContext";
+
 type HashTagItemProps = {
   company: string;
-  onSelectCompany: (company: string) => void;
 };
 
-export default function HashTagItem({
-  company,
-  onSelectCompany,
-}: HashTagItemProps) {
+export default function HashTagItem({ company }: HashTagItemProps) {
+  const { handleSelectCompany } = useFeedBackItemsContext();
+
   return (
     <li key={company}>
-      <button onClick={() => onSelectCompany(company)}>#{company}</button>
+      <button onClick={() => handleSelectCompany(company)}>#{company}</button>
     </li>
   );
 }

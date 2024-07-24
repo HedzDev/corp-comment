@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { MAX_CHARACTERS } from "../../lib/constants";
+import { useFeedBackItemsContext } from "../../lib/hooks/useFeedBackItemsContext";
 
-type FeedBackFormProps = {
-  onAddToList: (text: string) => void;
-};
-
-export default function FeedBackForm({ onAddToList }: FeedBackFormProps) {
+export default function FeedBackForm() {
+  const { handleAddToList } = useFeedBackItemsContext();
   const [text, setText] = useState("");
+  const [showValidIndicator, setShowValidIndicator] = useState(false);
+  const [showInvalidIndicator, setShowInvalidIndicator] = useState(false);
   const charCount = MAX_CHARACTERS - text.length;
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -19,12 +19,29 @@ export default function FeedBackForm({ onAddToList }: FeedBackFormProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onAddToList(text);
+
+    if (text.includes("#") && text.length >= 6) {
+      setShowValidIndicator(true);
+      setTimeout(() => setShowValidIndicator(false), 2500);
+    } else {
+      setShowInvalidIndicator(true);
+      setTimeout(() => {
+        setShowInvalidIndicator(false);
+        setText("");
+      }, 1500);
+      return;
+    }
+    handleAddToList(text);
     setText("");
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
+    <form
+      className={`form ${showValidIndicator ? "form--valid" : ""} ${
+        showInvalidIndicator ? "form--invalid" : ""
+      }`}
+      onSubmit={handleSubmit}
+    >
       <textarea
         id="feedback-textarea"
         placeholder="blabla"

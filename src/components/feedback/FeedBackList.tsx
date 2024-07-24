@@ -1,26 +1,19 @@
-import { TFeedBackItem } from "../../lib/types";
+import { useFeedBackItemsContext } from "../../lib/hooks/useFeedBackItemsContext";
 import ErrorMessage from "../ErrorMessage";
-import FeedBackItem from "./FeedBackItem";
 import Spinner from "../Spinner";
+import FeedBackItem from "./FeedBackItem";
 
-type FeedBackListProps = {
-  feedBackItems: TFeedBackItem[];
-  isLoading: boolean;
-  errorMsg: string;
-};
+export default function FeedBackList() {
+  const { isLoading, errorMsg, filteredFeedBackItems } =
+    useFeedBackItemsContext();
 
-export default function FeedBackList({
-  feedBackItems,
-  isLoading,
-  errorMsg,
-}: FeedBackListProps) {
   return (
     <ol className="feedback-list">
       {isLoading && <Spinner />}
 
-      {errorMsg && <ErrorMessage errorMsg={errorMsg} />}
+      {errorMsg && <ErrorMessage />}
 
-      {feedBackItems.map((feedBackItem) => (
+      {filteredFeedBackItems.map((feedBackItem) => (
         <FeedBackItem key={feedBackItem.id} feedBackItem={feedBackItem} />
       ))}
     </ol>
